@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#96D1F2" />
+    <meta name="description" content="Brofar" />
+    <title>It's BROFAR</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            -webkit-animation: gradient 15s ease infinite;
+            animation: gradient 15s ease infinite;
+        }
+
+        div {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        div img,
+        div canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        @-webkit-keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        img {
+            -moz-transition: all 1s ease-in-out;
+            -webkit-transition: all 1s ease-in-out;
+            -moz-transition: all 1s ease-in-out;
+            -o-transition: all 1s ease-in-out;
+            transition: all 1s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <img src="obs64_QbqLshqdEP.png" id="main-image">
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        setInterval(DoGrow, 3000);
+        function DoGrow() {
+            var img = $("#main-image");
+            var img_width = img.width();
+            img.animate(
+                {
+                    width: img_width + 1 + "px"
+                },
+                900);
+        }
+    });
+
+</script>
+
+</html>
