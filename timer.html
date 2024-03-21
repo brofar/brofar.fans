@@ -70,13 +70,13 @@
       let seconds = 0;
 
       if (parts.length >= 1) {
-        seconds = parts.slice(-1);
+        seconds = parts.slice(-1)[0];
       }
       if (parts.length >= 2) {
-        minutes = parts.slice(-2,-1);
+        minutes = parts.slice(-2,-1)[0];
       }
       if (parts.length >= 3) {
-        hours = parts.slide(-3,-2);
+        hours = parts.slide(-3,-2)[0];
       }
 
       return {
@@ -92,11 +92,11 @@
     }
 
     let { hours, minutes, seconds } = parseTime(urlParams.get('time'));
-    let target = seconds + (minutes * 60) + (hours * 3600);
+    let target = seconds + (minutes * 60) + (hours * 60 * 60);
 
     console.log(`Time ${urlParams.get('time')}`);
     console.log(`Target ${target}`);
-    console.log(`Hours ${target}`);
+    console.log(`Hours ${hours}`);
     console.log(`Minutes ${minutes}`);
     console.log(`Seconds ${seconds}`);
     // Do the count down
