@@ -53,6 +53,56 @@
         opacity: 1;
       }
     }
+
+    .fade-out {
+      animation: fadeOut ease 3s;
+      -webkit-animation: fadeOut ease 3s;
+    }
+
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      18% {
+        opacity: 1;
+      }
+      20% {
+        opacity: 0;
+      }
+      22% {
+        opacity: 1;
+      }
+      38% {
+        opacity: 1;
+      }
+      40% {
+        opacity: 0;
+      }
+      42% {
+        opacity: 1;
+      }
+      58% {
+        opacity: 1;
+      }
+      60% {
+        opacity: 0;
+      }
+      62% {
+        opacity: 1;
+      }
+      78% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 0;
+      }
+      82% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 
@@ -90,7 +140,7 @@
     if (!urlParams.has('time') || urlParams.get('time').indexOf(':') == -1) {
       document.getElementById('wrap').innerHTML = "Please specify a time (add ?time=xx:yy to the end of this page's URL)";
     }
-
+    const el = document.getElementById('countdown');
     let { hours, minutes, seconds } = parseTime(urlParams.get('time'));
     let target = seconds + (minutes * 60) + (hours * 60 * 60);
 
@@ -112,11 +162,12 @@
       if (--target <= 0) {
         //Target hit. Clear the countdown and set a static 00:00
         clearTimeout();
-        document.getElementById('countdown').innerHTML = "00:00";
+        el.innerHTML = "00:00";
+        el.classList.add("fade-out");
         return;
       }
 
-      document.getElementById('countdown').innerHTML = tickerText;
+      el.innerHTML = tickerText;
       setTimeout(tick, 1000);
     }
 
