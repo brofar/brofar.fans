@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      font-size: 30vw;
+      text-align: right;
+      color: rgba(255, 255, 255, 1.00);
+    }
+
+    body {
+      background: rgba(0, 0, 0, 0.00);
+    }
+
+    #wrap {
+      height: 100vh;
+      line-height: 100vh;
+      display: table;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .countdown {
+      display: table-cell;
+      vertical-align: middle;
+      line-height: normal;
+      width: 100vw;
+      letter-spacing: 3px;
+      -webkit-font-smoothing: antialiased;
+      text-shadow: 2px 2px grey;
+    }
+
+    .fade-in {
+      animation: fadeIn ease 3s;
+      -webkit-animation: fadeIn ease 3s;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrap" class='wrap'>
+    <div id='countdown' class='countdown fade-in'>
+    </div>
+  </div>
+  <script>
+    function parseTime(input) {
+      const parts = input.split(':').map(part => parseInt(part, 10));
+
+      let hours = 0;
+      let minutes = 0;
+      let seconds = 0;
+
+      if (parts.length >= 1) {
+        hours = parts[0];
+      }
+      if (parts.length >= 2) {
+        minutes = parts[1];
+      }
+      if (parts.length >= 3) {
+        seconds = parts[2];
+      }
+
+      return {
+        hours,
+        minutes,
+        seconds
+      };
+    }
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    if (!urlParams.has('time') || urlParams.get('time').indexOf(':') == -1) {
+      document.getElementById('wrap').innerHTML = "Please specify a time (add ?time=xx:yy to the end of this page's URL)";
+    }
+
+    let hours, minutes, seconds = parseTime(urlParams.get('time'));
+    let target = seconds + (minutes * 60) + (hours * 3600);
+
+    // Do the count down
+    function tick() {
+
+      //var remain = ( / 1000);
+      //var hh = pad((remain / 60 / 60) % 60);
+      var mm = pad((target / 60));
+      var ss = pad(target % 60);
+
+      var tickerText = mm + ":" + ss;
+
+      if (--target <= 0) {
+        //Target hit. Clear the countdown and set a static 00:00
+        clearTimeout();
+        document.getElementById('countdown').innerHTML = "00:00";
+        return;
+      }
+
+      document.getElementById('countdown').innerHTML = tickerText;
+      setTimeout(tick, 1000);
+    }
+
+    function pad(num) {
+      return parseInt(num).toString().padStart(2, '0');
+    }
+
+    // Wait for the page to load, then start counting.
+    document.addEventListener('DOMContentLoaded', tick);
+  </script>
+</body>
+
+</html>
