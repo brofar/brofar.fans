@@ -94,6 +94,11 @@
     let hours, minutes, seconds = parseTime(urlParams.get('time'));
     let target = seconds + (minutes * 60) + (hours * 3600);
 
+    console.log(`Time ${urlParams.get('time')}`);
+    console.log(`Target ${target}`);
+    console.log(`Hours ${target}`);
+    console.log(`Minutes ${minutes}`);
+    console.log(`Seconds ${seconds}`);
     // Do the count down
     function tick() {
 
