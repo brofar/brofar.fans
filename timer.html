@@ -159,10 +159,11 @@
 
       var tickerText = mm + ":" + ss;
 
-      if (--target <= 0) {
+      if (target-- <= 0) {
         //Target hit. Clear the countdown and set a static 00:00
         clearTimeout();
         el.innerHTML = "00:00";
+        el.classList.remove("fade-in");
         el.classList.add("fade-out");
         return;
       }
