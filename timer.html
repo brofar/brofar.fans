@@ -70,13 +70,13 @@
       let seconds = 0;
 
       if (parts.length >= 1) {
-        hours = parts[0];
+        seconds = parts.slice(-1);
       }
       if (parts.length >= 2) {
-        minutes = parts[1];
+        minutes = parts.slice(-2,-1);
       }
       if (parts.length >= 3) {
-        seconds = parts[2];
+        hours = parts.slide(-3,-2);
       }
 
       return {
@@ -91,7 +91,7 @@
       document.getElementById('wrap').innerHTML = "Please specify a time (add ?time=xx:yy to the end of this page's URL)";
     }
 
-    let hours, minutes, seconds = parseTime(urlParams.get('time'));
+    let { hours, minutes, seconds } = parseTime(urlParams.get('time'));
     let target = seconds + (minutes * 60) + (hours * 3600);
 
     console.log(`Time ${urlParams.get('time')}`);
