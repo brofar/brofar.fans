@@ -40,10 +40,13 @@
             document.getElementById('videocontainer').innerHTML = "";
             document.getElementById('imagebox2').innerHTML = "";
         }
+        document.addEventListener("DOMContentLoaded", function() {
+          shoutout();
+        });
     </script>
 </head>
 
-<body onload="shoutout();">
+<body>
     <div id="videocontainer" style="position:absolute; left: 0px; top: 0px; width: 100%;z-index:10" ; text-align: center>
         <video id='videoplayer' style="width:100%" autoplay onended="setTimeout('cleanup()',500);"></video>
     </div>
