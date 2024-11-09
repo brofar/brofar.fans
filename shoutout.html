@@ -9,6 +9,14 @@
     function showVideo() {
       const urlParams = new URLSearchParams(window.location.search);
       const video = urlParams.get('video');
+
+      if (video) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'video';
+        link.href = video;
+        document.head.appendChild(link);
+      }
       const thumbnailUrl = urlParams.get('thumbnail_url');
 
       // Get the video source from the thumbnail url
