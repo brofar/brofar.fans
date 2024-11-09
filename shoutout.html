@@ -40,47 +40,45 @@
       document.getElementById('imagebox2').innerHTML = "";
     }
 
-    const video = document.getElementById('videoplayer');
-    video.addEventListener("error", (event) => {
-      // Code to be executed if an error occurs
-      console.error("An error occurred while loading the video: " + video.error.message);
-    });
-    video.addEventListener("abort", (event) => {
-      // Code to be executed if an error occurs
-      console.error("An error occurred while loading the video: " + video.error.message);
-    });
-    video.addEventListener("loadstart", (event) => {
-      // Code to be executed when the browser starts loading the video
-      console.log("The browser starts loading the video: " + video.src);
-    });
-    video.addEventListener("loadeddata", (event) => {
-      // Code to be executed when the video is loaded and ready to play
-      console.log("Video loaded and ready to play: " + video.src);
-    });
-    video.addEventListener("canplay", (event) => {
-      // Code to be executed when the browser can start playing the video
-      console.log("The browser can start playing the video: " + video.src);
-    });
-    video.addEventListener("playing", (event) => {
-      // Code to be executed when the video is playing
-      console.log("The video is playing: " + video.src);
-    });
-    video.addEventListener("ended", (event) => {
-      // Code to be executed when the video has ended
-      console.log("The video has ended: " + video.src);
-      setTimeout('cleanup()',500);
-    });
-    video.addEventListener("waiting", (event) => {
-      // Code to be executed when the video stops because it needs to buffer the next frame
-      console.log("The video stops because it needs to buffer the next frame: " + video.src);
-    });
-    video.addEventListener("stalled", (event) => {
-      // Code to be executed when the browser is trying to get media data, but data is not available
-      console.log("The browser is trying to get media data, but data is not available: " + video.src);
-    });
-
-    
     document.addEventListener("DOMContentLoaded", function () {
+      const video = document.getElementById('videoplayer');
+      video.addEventListener("error", (event) => {
+        // Code to be executed if an error occurs
+        console.error("An error occurred while loading the video: " + video.error.message);
+      });
+      video.addEventListener("abort", (event) => {
+        // Code to be executed if an error occurs
+        console.error("An error occurred while loading the video: " + video.error.message);
+      });
+      video.addEventListener("loadstart", (event) => {
+        // Code to be executed when the browser starts loading the video
+        console.log("The browser starts loading the video: " + video.src);
+      });
+      video.addEventListener("loadeddata", (event) => {
+        // Code to be executed when the video is loaded and ready to play
+        console.log("Video loaded and ready to play: " + video.src);
+      });
+      video.addEventListener("canplay", (event) => {
+        // Code to be executed when the browser can start playing the video
+        console.log("The browser can start playing the video: " + video.src);
+      });
+      video.addEventListener("playing", (event) => {
+        // Code to be executed when the video is playing
+        console.log("The video is playing: " + video.src);
+      });
+      video.addEventListener("ended", (event) => {
+        // Code to be executed when the video has ended
+        console.log("The video has ended: " + video.src);
+        setTimeout('cleanup()', 500);
+      });
+      video.addEventListener("waiting", (event) => {
+        // Code to be executed when the video stops because it needs to buffer the next frame
+        console.log("The video stops because it needs to buffer the next frame: " + video.src);
+      });
+      video.addEventListener("stalled", (event) => {
+        // Code to be executed when the browser is trying to get media data, but data is not available
+        console.log("The browser is trying to get media data, but data is not available: " + video.src);
+      });
       shoutout();
     });
   </script>
