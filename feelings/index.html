@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="manifest" href="../manifest.json">
+  <meta charset="utf-8" />
+  <meta name="theme-color" content="#96D1F2" />
+  <meta name="description" content="Brofar" />
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="msapplication-starturl" content="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Touchy Feely</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      -webkit-animation: gradient 15s ease infinite;
+      animation: gradient 15s ease infinite;
+      direction: ltr;
+      font-family: "Open Sans", verdana, arial, sans-serif;
+      margin: 0px;
+      padding: 0px;
+
+    }
+
+    @-webkit-keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .center {
+      margin: 0 auto;
+    }
+
+    #chart-container,
+    #information {
+      max-width: 900px;
+      max-height: 900px;
+      width: 90%;
+      height: 90%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="chart-container" class="center"></div>
+  <div id="information" class="center">
+    The Feelings Wheel, created by <a href="https://journals.sagepub.com/doi/abs/10.1177/036215378201200411">Dr. Gloria Willcox</a>,
+    is a tool to help us identify and communicate our emotions. Click on a feeling to zoom.
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.3/plotly.min.js" integrity="sha512-7H/XbvOmUsf6mawBvmmx9BsPt9ew2NTwQ3QDSzNe6iyacDbCJU+7pBbZY1NdmTpuj7snxSsXasMYMiR2tv906g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" integrity="sha512-dfX5uYVXzyU8+KHqj8bjo7UkOdg18PaOtpa48djpNbZHwExddghZ+ZmzWT06R5v6NSk3ZUfsH6FNEDepLx9hPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    Papa.parse('./feelings.csv', {
+      download: true,
+      skipEmptyLines: true,
+      header: true,
+      fastMode: true, // only works when the input has no quoted fields
+      complete: MakeChart,
+    })
+
+    function unpack(rows, key) {
+      return rows.map(function (row) { return row[key]; });
+    }
+
+    function MakeChart(data) {
+      let feelings = data.data;
+      var data = [{
+        type: "sunburst",
+        ids: unpack(feelings, 'ids'),
+        labels: unpack(feelings, 'labels'),
+        parents: unpack(feelings, 'parents'),
+        outsidetextfont: { size: 20, color: "#377eb8" },
+        leaf: { opacity: 0.4 },
+        marker: {
+          line: {
+            width: 1,
+            color: "#DDD"
+          }
+        },
+        insidetextorientation: "radial",
+      }];
+
+      var layout = {
+        margin: { l: 0, r: 0, b: 50, t: 50 },
+        plot_bgcolor: "rgba(0,0,0,0)",
+        paper_bgcolor: "rgba(0,0,0,0)",
+        autosize: true,
+        sunburstcolorway: [
+          "#f7dc6f", // Happy
+          "#8e44ad", // Fearful
+          "#e74c3c", // Angry
+          "#2980b9", // Sad
+          "#27ae60", // Disgusted
+          "#eb984e", // Surprised
+          "#3b3b3b" // Bad
+        ],
+        extendsunburstcolorway: true
+      };
+
+      var config = { responsive: true }
+
+      var element = document.getElementById('chart-container');
+
+      Plotly.newPlot(element, data, layout, config).then(gd => {
+        // Add click event to change text orientation
+        gd.on('plotly_sunburstclick', function (data) {
+          var clickedPoint = data.points[0];
+
+          console.log(clickedPoint.parent);
+          console.log(data.nextLevel);
+          console.log(clickedPoint);
+
+
+          if (clickedPoint.parent.length > 1) {
+            if(data.nextLevel !== undefined)
+              Plotly.restyle(gd, 'insidetextorientation', 'horizontal');
+          } else {
+            Plotly.restyle(gd, 'insidetextorientation', 'radial');
+          }
+        });
+      });
+    };
+  </script>
+</body>
+
+</html>
