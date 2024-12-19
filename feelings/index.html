@@ -138,11 +138,6 @@
         gd.on('plotly_sunburstclick', function (data) {
           var clickedPoint = data.points[0];
 
-          console.log(clickedPoint.parent);
-          console.log(data.nextLevel);
-          console.log(clickedPoint);
-
-
           if (clickedPoint.parent.length > 1) {
             if(data.nextLevel !== undefined)
               Plotly.restyle(gd, 'insidetextorientation', 'horizontal');
