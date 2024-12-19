@@ -68,6 +68,7 @@
       max-width: 900px;
       width: 90%;
     }
+
     #chart-container {
       height: 90%;
       max-height: 900px;
@@ -131,7 +132,7 @@
         extendsunburstcolorway: true
       };
 
-      var config = { responsive: true }
+      var config = { responsive: true, displaylogo: false, displayModeBar: false }
 
       var element = document.getElementById('chart-container');
 
@@ -141,7 +142,7 @@
           var clickedPoint = data.points[0];
 
           if (clickedPoint.parent.length > 1) {
-            if(data.nextLevel !== undefined)
+            if (data.nextLevel !== undefined)
               Plotly.restyle(gd, 'insidetextorientation', 'horizontal');
           } else {
             Plotly.restyle(gd, 'insidetextorientation', 'radial');
