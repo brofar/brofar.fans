@@ -1,0 +1,93 @@
+<html>
+
+<head>
+  <title>Streamer.bot Shout out player</title>
+
+  <script>
+    function showVideo() {
+      videoElement = document.getElementById('videoplayer')
+      videoElement.style.visibility = "visible";
+      videoElement.play();
+
+    }
+    function shoutout() {
+      let firstrun = true;
+
+      // parse url params
+      const urlParams = new URLSearchParams(window.location.search);
+      const user = urlParams.get('user');
+      const image = urlParams.get('image');
+      const video = urlParams.get('video');
+      const time = urlParams.get('time');
+      document.getElementById('imagebox2').innerHTML = "<img src='" + image + "' width='100%'/>";
+      const thumbnailUrl = urlParams.get('thumbnail_url');
+      videoSrc = thumbnailUrl.replace(/(.*)-preview-.*/, '$1.mp4');
+      
+      // Check to see if the URL is a new or old format
+
+      if (thumbnailUrl.indexOf("-preview-") == -1) {
+
+        const match = video.match(/clip=([^"]+)/);
+        const clipId = match ? match[1] : null;
+
+        const url = "https://gql.twitch.tv/gql";
+        const query = {
+          operationName: "VideoAccessToken_Clip",
+          variables: {
+            slug: clipId
+          },
+          extensions: {
+            persistedQuery: {
+              version: 1,
+              sha256Hash: "36b89d2507fce29e5ca551df756d27c1cfe079e2609642b4390aa4c35796eb11"
+            }
+          }
+        };
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, false);
+        xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+        xhr.setRequestHeader("Client-ID", "kimne78kx3ncx6brgo4mv6wki5h1ko");
+        xhr.send(JSON.stringify(query));
+        if (xhr.status === 200) {
+          console.log(JSON.parse(xhr.responseText));
+        } else {
+          console.error("Request failed with status: " + xhr.status);
+          return null;
+        }
+        const clipInfo = JSON.parse(xhr.responseText);
+        const clipData = clipInfo.data;
+        const clipSource = clipData.clip.videoQualities[0].sourceURL;
+        const clipSig = clipData.clip.playbackAccessToken.signature;
+        const clipToken = clipData.clip.playbackAccessToken.value
+
+        videoSrc = clipSource + "?sig=" + clipSig + "&token=" + clipToken;
+        console.log(videoSrc);
+      }
+      
+      const videoElement = document.getElementById('videoplayer');
+      videoElement.style.visibility = "hidden";
+      videoElement.src = videoSrc;
+      videoElement.load();
+      videoElement.play();
+      videoElement.pause();
+      
+      setTimeout('showVideo();', 1000);
+    }
+    function cleanup() {
+      document.getElementById('videocontainer').innerHTML = "";
+      document.getElementById('imagebox2').innerHTML = "";
+    }
+  </script>
+
+
+</head>
+
+<body onload="shoutout();">
+  <div id="videocontainer" style="position:absolute; left: 0px; top: 0px; width: 100%;z-index:10" ; text-align: center>
+    <video id='videoplayer' style="width:100%" autoplay onended="setTimeout('cleanup()',500);"></video>
+  </div>
+  <div id="imagebox2" style="position:absolute; height: 66%; width: 37.5%;  text-align: center; z-index: 1; left:50%; top:50%; transform: translate(-50%, -50%);">
+  </div>
+</body>
+
+</html>
