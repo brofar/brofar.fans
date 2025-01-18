@@ -61,27 +61,15 @@
         }
       }
 
-      const videoElement = document.getElementById('videoplayer');
-      videoElement.style.visibility = "hidden";
-      videoElement.src = videoSrc;
-
-      // Wait for the video to buffer before playing
-      videoElement.addEventListener('loadeddata', () => {
-        videoElement.style.visibility = "visible";
-        videoElement.play();
-      });
-
-      // Cleanup after video ends
-      videoElement.addEventListener('ended', () => {
-        cleanup();
-      });
+      const videoElement = document.getElementById('body');
+      videoElement.innerHTML = videoSrc;
     }
   </script>
 
 
 </head>
 
-<body onload="shoutout();">
+<body onload="shoutout();" id="body">
   <div id="videocontainer" style="position:absolute; left: 0px; top: 0px; width: 100%;z-index:10" ; text-align: center>
     <video id='videoplayer' style="width:100%" autoplay onended="setTimeout('cleanup()',500);"></video>
   </div>
